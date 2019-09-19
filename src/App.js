@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import SearchBar from "./SearchBar";
+import ProductTable from "./ProductTable";
 
 function App() {
+  const [state, setState] = useState({
+    search: "",
+    stocked: false
+  });
+  function handleChange(evt) {
+    let value =
+      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
+    setState({ ...state, [evt.target.name]: value });
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar
+        search={state.search}
+        checked={state.stocked}
+        onSearchChange={handleChange}
+      />
+      <ProductTable search={state.search} checked={state.stocked} />
     </div>
   );
 }
